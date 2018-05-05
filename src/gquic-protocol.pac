@@ -53,7 +53,7 @@ type ConnectionID(flags: PublicFlags) = record {
 };
 
 type RegularPacket(flags: PublicFlags,
-                   cid: ConnectionID, is_orig: bool)= record {
+                   cid: ConnectionID, is_orig: bool) = record {
 	version: case flags.have_version of {
 		true  -> version_val: uint8[4];
 		false -> version_nil: empty;
@@ -71,6 +71,11 @@ type RegularPacket(flags: PublicFlags,
 		0x30    -> pkt_num_bytes6: uint8[6];
 		default -> pkt_num_bytesx: empty; # not possible, all 4 cases handled 
 	};
+
+	# A sequence of Frame Packets follows.
+	# TODO: it may be possible to extract info for certain frame types
+	# though most appear to be encrypted.
+	frames: bytestring &restofdata &transient;
 };
 
 type VersionNegotiationPacket(flags: PublicFlags,
