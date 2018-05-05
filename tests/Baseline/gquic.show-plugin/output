@@ -1,0 +1,9 @@
+Corelight::GQUIC - Google QUIC (QGUIC) protocol analyzer (dynamic, version 0.1)
+    [Analyzer] GQUIC (ANALYZER_GQUIC, enabled)
+    [Event] gquic_packet
+    [Event] gquic_client_version
+    [Event] gquic_version_negotiation
+    [Event] gquic_reset
+    [Constant] GQUIC::skip_after_confirm
+    [Type] GQUIC::PublicHeader
+

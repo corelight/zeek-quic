@@ -1,0 +1,56 @@
+
+Google QUIC analyzer/detector for Bro
+=====================================
+
+This analyzer can parse and detect the Google implementation of QUIC
+(called GQUIC here for simplicity), using the wire format described at:
+
+https://www.chromium.org/quic.
+
+The version of GQUIC used by Chrome at the time of writing this analyzer
+was Q039.  The wire format described in GQUIC documents at that time
+(May 4-5 2018) also appeared out of sync with the actual implementations
+used in the wild.
+
+Additionally, there seems to be regular effort to migrate GQUIC to track
+the IETF draft standard for QUIC described at:
+
+https://datatracker.ietf.org/wg/quic/documents/
+
+With that draft differing in significant ways from the Q039
+implementation this analyzer was tested against and also having changed
+its wire format recently.
+
+To summarize, this GQUIC analyzer, if not updated in the future, isn't
+expected to continue working with later evolutions of the QUIC protocol.
+
+Installation
+------------
+
+Via `bro-pkg <http://bro-package-manager.readthedocs.io/en/stable/>`_::
+
+    bro-pkg install corelight/bro-gquic
+
+Else you will have to build and install it yourself::
+
+    ./configure --bro-dist=<path>
+    make
+    make install
+
+Usage
+-----
+
+By default this simple detect whether a UDP connection looks like the
+QUIC protocol, adds the "guic" string to conn.log's "service" field and
+then stops parsing.
+
+If you want to write a custom script that handles other events provided
+by the analyzer, you might want to have the analyzer continue to parse
+the connection even after the protocol has been confirmed::
+
+    redef GQUIC::skip_after_confirm = F;
+
+The events provided can give coarse information regarding packet type
+(Regular Packet vs. Version Negotiation vs Public Reset) as well as the
+content of the Public Header (like Packet Number, QUIC Version,
+Connection ID, or Diversification Nonce).
