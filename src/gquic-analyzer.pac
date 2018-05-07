@@ -30,7 +30,8 @@ refine connection GQUIC_Conn += {
 			{
 			if ( version_bytes[0] != 'Q' )
 				{
-				bro_analyzer()->ProtocolViolation("invalid GQUIC Version");
+				bro_analyzer()->ProtocolViolation("invalid GQUIC Version",
+				    reinterpret_cast<const char*>(version_bytes), 4);
 				return 0;
 				}
 
@@ -38,7 +39,9 @@ refine connection GQUIC_Conn += {
 				{
 				if ( ! isdigit(version_bytes[i]) )
 					{
-					bro_analyzer()->ProtocolViolation("invalid GQUIC Version");
+					bro_analyzer()->ProtocolViolation(
+					    "invalid GQUIC Version",
+				        reinterpret_cast<const char*>(version_bytes), 4);
 					return 0;
 					}
 				}
@@ -69,7 +72,10 @@ refine connection GQUIC_Conn += {
 
 			if ( vlist.length() % 4 != 0 )
 				{
-				bro_analyzer()->ProtocolViolation("invalid GQUIC Version");
+				bro_analyzer()->ProtocolViolation(
+				    "invalid GQUIC Version Negotation list",
+				    reinterpret_cast<const char*>(vlist.data()),
+				    vlist.length());
 				return true;
 				}
 
