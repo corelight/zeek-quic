@@ -57,7 +57,6 @@ refine connection GQUIC_Conn += {
 	%init{
 		saw_regular_server_packet = false;
 		last_known_client_version = 0;
-		potential_client_versions = {};
 	%}
 
 	%cleanup{
