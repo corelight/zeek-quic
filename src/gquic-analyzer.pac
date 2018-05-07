@@ -14,7 +14,7 @@
 refine connection GQUIC_Conn += {
 
 	%member{
-		bool saw_regular_server_packet;
+		bool saw_server_pkt1;
 		uint16 last_known_client_version;
 		std::unordered_set<uint16> potential_client_versions;
 
@@ -55,7 +55,7 @@ refine connection GQUIC_Conn += {
 	%}
 
 	%init{
-		saw_regular_server_packet = false;
+		saw_server_pkt1 = false;
 		last_known_client_version = 0;
 	%}
 
@@ -139,7 +139,7 @@ refine connection GQUIC_Conn += {
 				pkt_num = get_packet_number(${pkt.reg_pkt},
 				                            last_known_client_version);
 
-				if ( last_known_client_version && saw_regular_server_packet )
+				if ( last_known_client_version && saw_server_pkt1 )
 					confirm();
 				}
 			else
@@ -147,9 +147,10 @@ refine connection GQUIC_Conn += {
 				pkt_num = get_packet_number(${pkt.reg_pkt},
 				                            last_known_client_version);
 
-				saw_regular_server_packet = true;
+				if ( pkt_num == 1 )
+					saw_server_pkt1 = true;
 
-				if ( last_known_client_version )
+				if ( last_known_client_version && saw_server_pkt1 )
 					confirm();
 				}
 
