@@ -8,9 +8,13 @@ This analyzer can parse and detect the Google implementation of QUIC
 https://www.chromium.org/quic.
 
 The version of GQUIC used by Chrome at the time of writing this analyzer
-was Q039.  The wire format described in GQUIC documents at that time
-(May 4-5 2018) also appeared out of sync with the actual implementations
-used in the wild.
+was Q039 with some Google servers (and possibly Chrome canary builds)
+also being able to use Q043.  This analyzer was able to detect both
+those versions during testing.
+
+The wire format described in GQUIC documents at that time (May 4-5 2018)
+also appeared out of sync with the actual implementations used in the
+wild.
 
 Additionally, there seems to be regular effort to migrate GQUIC to track
 the IETF draft standard for QUIC described at:
@@ -41,7 +45,7 @@ Else you will have to build and install it yourself::
 Usage
 -----
 
-By default this simple detect whether a UDP connection looks like the
+By default this simply detects whether a UDP connection looks like the
 QUIC protocol, adds the "guic" string to conn.log's "service" field and
 then stops parsing.
 
@@ -62,3 +66,5 @@ References / Tools
 Tools: https://github.com/quicwg/base-drafts/wiki/Tools
 
 Implementations: https://github.com/quicwg/base-drafts/wiki/Implementations
+
+Chromium: https://www.chromium.org/quic/playing-with-quic

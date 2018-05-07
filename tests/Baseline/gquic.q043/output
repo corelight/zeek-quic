@@ -1,0 +1,3 @@
+gquic_client_version, [orig_h=192.168.1.102, orig_p=55925/udp, resp_h=74.125.197.105, resp_p=443/udp], 43
+gquic_packet, [orig_h=192.168.1.102, orig_p=55925/udp, resp_h=74.125.197.105, resp_p=443/udp], T, [pkt_num=1, multipath=F, reserved=F, cid=\xa0\x89\xfa\x84_\x8b-\xd1, version=43, nonce=<uninitialized>]
+gquic_packet, [orig_h=192.168.1.102, orig_p=55925/udp, resp_h=74.125.197.105, resp_p=443/udp], F, [pkt_num=1, multipath=F, reserved=F, cid=\xa0\x89\xfa\x84_\x8b-\xd1, version=<uninitialized>, nonce=<uninitialized>]

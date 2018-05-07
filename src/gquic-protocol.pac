@@ -7,11 +7,11 @@
 # QUIC standard.  i.e. Google is slowly working to migrate GQUIC to
 # track the changes made by the IETF.
 
-# For reference, the following message format was written on May 4, 2018
-# and tested against GQUIC Version "Q039".  The wire format specification
+# For reference, the following message format was written on May 4-7, 2018
+# and tested on GQUIC Version Q039 and Q049.  The wire format specification
 # document was also not completely up to date at that time, with it only
 # acknowleding the changes through version Q036.  e.g. the doc still claimed
-# a little-endian byte order even through Q039 made the switch to big-endian.
+# a little-endian byte order even though Q039 made the switch to big-endian.
 
 type GQUIC_Packet(is_orig: bool) = record {
 	flags: PublicFlags(is_orig);
