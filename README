@@ -22,8 +22,8 @@ the IETF draft standard for QUIC described at:
 https://github.com/quicwg/base-drafts
 https://datatracker.ietf.org/wg/quic/documents/
 
-With that draft differing in significant ways from the Q039
-implementation this analyzer was tested against and also having changed
+With that draft differing in significant ways from the GQUIC
+implementations this analyzer was tested against and also having changed
 its wire format recently.
 
 To summarize, this GQUIC analyzer, if not updated in the future, isn't
