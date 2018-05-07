@@ -15,6 +15,7 @@ used in the wild.
 Additionally, there seems to be regular effort to migrate GQUIC to track
 the IETF draft standard for QUIC described at:
 
+https://github.com/quicwg/base-drafts
 https://datatracker.ietf.org/wg/quic/documents/
 
 With that draft differing in significant ways from the Q039
@@ -54,3 +55,10 @@ The events provided can give coarse information regarding packet type
 (Regular Packet vs. Version Negotiation vs Public Reset) as well as the
 content of the Public Header (like Packet Number, QUIC Version,
 Connection ID, or Diversification Nonce).
+
+References / Tools
+------------------
+
+Tools: https://github.com/quicwg/base-drafts/wiki/Tools
+
+Implementations: https://github.com/quicwg/base-drafts/wiki/Implementations
