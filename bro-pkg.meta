@@ -1,5 +1,5 @@
 [package]
-description = Detects the Google QUIC (GQUIC) protocol and adds 'gquic'
+description = Detects the Google QUIC (GQUIC) protocol and adds "gquic"
     to conn.log's "service" field.
 tags = plugin, analyzer, gquic, quic
 plugin_dir = build/Corelight_GQUIC.tgz
