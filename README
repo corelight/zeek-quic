@@ -68,3 +68,8 @@ Tools: https://github.com/quicwg/base-drafts/wiki/Tools
 Implementations: https://github.com/quicwg/base-drafts/wiki/Implementations
 
 Chromium: https://www.chromium.org/quic/playing-with-quic
+
+Acknowledgements
+----------------
+
+Prior QUIC analyzer work by Mike Dopheide: https://github.com/dopheide-esnet/bro-quic
