@@ -34,7 +34,7 @@ Installation
 
 Via `bro-pkg <http://bro-package-manager.readthedocs.io/en/stable/>`_::
 
-    bro-pkg install corelight/bro-gquic
+    bro-pkg install corelight/bro-quic
 
 Else you will have to build and install it yourself::
 
