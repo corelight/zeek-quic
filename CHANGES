@@ -1,0 +1,9 @@
+
+0.2 Wed Nov 14 16:10:17 CST 2018
+
+- Release 0.2.
+
+- Update show-plugin test to remove version number from baseline. (Michael Dopheide)
+
+- Update configure script to support building against bro installation. (Jon Siwek, Corelight)
+
