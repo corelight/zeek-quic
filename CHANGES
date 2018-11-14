@@ -1,0 +1,5 @@
+
+Version 0.2 - 2018-11-14
+Update show-plugin.bro test to remove the version number from the baseline output.  With Bro
+2.7, the version will be built from major.minor.patch, which conflicts with the current major.minor
+

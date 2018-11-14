@@ -1,4 +1,4 @@
-Corelight::GQUIC - Google QUIC (QGUIC) protocol analyzer (dynamic, version 0.1)
+Corelight::GQUIC - Google QUIC (QGUIC) protocol analyzer (dynamic, version)
     [Analyzer] GQUIC (ANALYZER_GQUIC, enabled)
     [Event] gquic_packet
     [Event] gquic_client_version
