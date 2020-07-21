@@ -15,8 +15,8 @@ refine connection GQUIC_Conn += {
 
 	%member{
 		bool saw_server_pkt1;
-		uint16 last_known_client_version;
-		std::unordered_set<uint16> potential_client_versions;
+		uint16_t last_known_client_version;
+		std::unordered_set<uint16_t> potential_client_versions;
 
 		void confirm()
 			{
@@ -26,7 +26,7 @@ refine connection GQUIC_Conn += {
 				bro_analyzer()->SetSkip(true);
 			}
 
-		uint16 extract_gquic_version(const uint8* version_bytes)
+		uint16_t extract_gquic_version(const uint8_t* version_bytes)
 			{
 			if ( version_bytes[0] != 'Q' )
 				{
@@ -46,7 +46,7 @@ refine connection GQUIC_Conn += {
 					}
 				}
 
-			uint16 rval = 0;
+			uint16_t rval = 0;
 			rval += (version_bytes[1] - 0x30) * 100;
 			rval += (version_bytes[2] - 0x30) * 10;
 			rval += (version_bytes[3] - 0x30);
@@ -78,12 +78,12 @@ refine connection GQUIC_Conn += {
 				return true;
 				}
 
-			std::vector<uint16> parsed_version_list;
+			std::vector<uint16_t> parsed_version_list;
 			parsed_version_list.reserve(vlist.length() / 4);
 
 			for ( auto i = 0u; i < vlist.length(); i += 4 )
 				{
-				auto ptr = reinterpret_cast<const uint8*>(vlist.begin() + i);
+				auto ptr = reinterpret_cast<const uint8_t*>(vlist.begin() + i);
 				auto parsed_version = extract_gquic_version(ptr);
 
 				if ( parsed_version == 0 )
@@ -191,7 +191,7 @@ refine connection GQUIC_Conn += {
 		return true;
 		%}
 
-	function get_gquic_version(pkt: RegularPacket): uint16
+	function get_gquic_version(pkt: RegularPacket): uint16_t
 		%{
 		if ( ! pkt->version_case_index() )
 			return 0;
@@ -199,12 +199,12 @@ refine connection GQUIC_Conn += {
 		return extract_gquic_version(${pkt.version_val}->data());
 		%}
 
-	function get_packet_number(pkt: RegularPacket, version: uint16): uint64
+	function get_packet_number(pkt: RegularPacket, version: uint16_t): uint64_t
 		%{
 		return convert_packet_bytes(get_packet_number_bytes(pkt), version);
 		%}
 
-	function get_packet_number_bytes(pkt: RegularPacket): uint8[]
+	function get_packet_number_bytes(pkt: RegularPacket): uint8_t[]
 		%{
 		switch ( pkt->pkt_num_bytes_case_index() ) {
 			case 0x00:
@@ -221,10 +221,10 @@ refine connection GQUIC_Conn += {
 		return nullptr;
 		%}
 
-	function convert_packet_bytes(bytes: uint8[], version: uint16): uint64
+	function convert_packet_bytes(bytes: uint8_t[], version: uint16_t): uint64_t
 		%{
-		uint64 rval = 0;
-		uint8* byte_ptr = reinterpret_cast<uint8*>(&rval);
+		uint64_t rval = 0;
+		uint8_t* byte_ptr = reinterpret_cast<uint8_t*>(&rval);
 		byte_ptr += sizeof(rval) - bytes->size();
 
 		for ( auto i = 0u; i < bytes->size(); ++i )
@@ -243,9 +243,9 @@ refine connection GQUIC_Conn += {
 		else
 			{
 #ifdef WORDS_BIGENDIAN
-			uint64 tmp;
-			uint8* src = reinterpret_cast<uint8*>(&rval);
-			uint8* dst = reinterpret_cast<uint8*>(&tmp);
+			uint64_t tmp;
+			uint8_t* src = reinterpret_cast<uint8_t*>(&rval);
+			uint8_t* dst = reinterpret_cast<uint8_t*>(&tmp);
 			dst[0] = src[7];
 			dst[1] = src[6];
 			dst[2] = src[5];

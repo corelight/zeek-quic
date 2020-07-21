@@ -15,6 +15,6 @@ plugin::Configuration Plugin::Configure()
 	config.name = "Corelight::GQUIC";
 	config.description = "Google QUIC (QGUIC) protocol analyzer";
 	config.version.major = 0;
-	config.version.minor = 2;
+	config.version.minor = 3;
 	return config;
 	}

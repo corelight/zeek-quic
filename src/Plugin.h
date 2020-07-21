@@ -3,6 +3,7 @@
 #define BRO_PLUGIN_CORELIGHT_GQUIC
 
 #include <plugin/Plugin.h>
+#include "file_analysis/Component.h"
 
 namespace plugin {
 namespace Corelight_GQUIC {
