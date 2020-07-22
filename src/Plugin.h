@@ -1,9 +1,5 @@
 
-#ifndef BRO_PLUGIN_CORELIGHT_GQUIC
-#define BRO_PLUGIN_CORELIGHT_GQUIC
-
-#include <plugin/Plugin.h>
-#include "file_analysis/Component.h"
+#pragma once
 
 namespace plugin {
 namespace Corelight_GQUIC {
@@ -19,5 +15,3 @@ extern Plugin plugin;
 
 }
 }
-
-#endif
