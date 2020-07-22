@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <plugin/Plugin.h>
+
 namespace plugin {
 namespace Corelight_GQUIC {
 
