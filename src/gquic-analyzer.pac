@@ -101,8 +101,7 @@ refine connection GQUIC_Conn += {
 				auto vv = new VectorVal(vt);
 
 				for ( auto i = 0u; i < parsed_version_list.size(); ++i )
-					vv->Assign(vv->Size(), new Val(parsed_version_list[i],
-					                               TYPE_COUNT));
+					vv->Assign(vv->Size(), val_mgr->GetCount(parsed_version_list[i]));
 
 				BifEvent::generate_gquic_version_negotiation(
 				    bro_analyzer(), bro_analyzer()->Conn(), is_orig, vv);
@@ -157,9 +156,9 @@ refine connection GQUIC_Conn += {
 			if ( gquic_packet )
 				{
 				auto rv = new RecordVal(BifType::Record::GQUIC::PublicHeader);
-				rv->Assign(0, new Val(pkt_num, TYPE_COUNT));
-				rv->Assign(1, new Val(${pkt.flags.is_multipath}, TYPE_BOOL));
-				rv->Assign(2, new Val(${pkt.flags.reserved_bit}, TYPE_BOOL));
+				rv->Assign(0, val_mgr->GetCount(pkt_num));
+				rv->Assign(1, val_mgr->GetBool(${pkt.flags.is_multipath}));
+				rv->Assign(2, val_mgr->GetBool(${pkt.flags.reserved_bit}));
 
 				if ( ${pkt.cid}->present_case_index() )
 					{
@@ -169,7 +168,7 @@ refine connection GQUIC_Conn += {
 					}
 
 				if ( ${pkt.reg_pkt}->version_case_index() )
-					rv->Assign(4, new Val(pkt_version, TYPE_COUNT));
+					rv->Assign(4, val_mgr->GetCount(pkt_version));
 
 				if ( ${pkt.reg_pkt}->nonce_case_index() )
 					{
