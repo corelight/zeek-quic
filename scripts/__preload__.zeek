@@ -7,5 +7,5 @@
 # just for other BiF elements), that should go into __load__.bro instead.
 #
 
-@load ./types.bro
+@load ./types
 
