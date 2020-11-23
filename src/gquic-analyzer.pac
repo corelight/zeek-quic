@@ -3,6 +3,7 @@
 	#include <unordered_set>
 	#include "consts.bif.h"
 	#include "types.bif.h"
+	#include "Scope.h"
 %}
 
 %header{
@@ -97,7 +98,7 @@ refine connection GQUIC_Conn += {
 
 			if ( gquic_version_negotiation )
 				{
-				auto vt = internal_type("index_vec")->AsVectorType();
+				static auto vt = lookup_ID("index_vec", "GLOBAL")->Type()->AsVectorType();
 				auto vv = new VectorVal(vt);
 
 				for ( auto i = 0u; i < parsed_version_list.size(); ++i )
