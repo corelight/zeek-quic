@@ -1,6 +1,6 @@
 
-Google QUIC analyzer/detector for Bro
-=====================================
+Google QUIC analyzer/detector for Zeek
+======================================
 
 This analyzer can parse and detect the Google implementation of QUIC
 (called GQUIC here for simplicity), using the wire format described at:
@@ -32,13 +32,14 @@ expected to continue working with later evolutions of the QUIC protocol.
 Installation
 ------------
 
-Via `bro-pkg <http://bro-package-manager.readthedocs.io/en/stable/>`_::
+Via `zkg <https://docs.zeek.org/projects/package-manager/en/stable>`_::
 
-    bro-pkg install corelight/bro-quic
+    zkg install corelight/zeek-quic
 
-Else you will have to build and install it yourself::
+Else you will have to build and install it yourself (assuming `zeek-config`
+in in your `PATH`)::
 
-    ./configure --bro-dist=<path>
+    ./configure
     make
     make install
 
