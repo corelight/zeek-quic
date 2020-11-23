@@ -1,6 +1,8 @@
 #ifndef ANALYZER_PROTOCOL_GQUIC_GQUIC_H
 #define ANALYZER_PROTOCOL_GQUIC_GQUIC_H
 
+#include "zeek-config.h"
+
 #include "analyzer/protocol/udp/UDP.h"
 #include "analyzer/protocol/pia/PIA.h"
 
@@ -31,7 +33,11 @@ protected:
 	bool orig_done;
 	bool resp_done;
 
+#if defined(ZEEK_VERSION_NUMBER) && ZEEK_VERSION_NUMBER >= 30300
+	zeek::analyzer::pia::PIA_UDP* pia;
+#else
 	pia::PIA_UDP* pia;
+#endif
 	binpac::GQUIC::GQUIC_Conn* interp;
 };
 
