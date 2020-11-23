@@ -1,1 +1,7 @@
-bro-pkg.meta
+[package]
+description = Detects the Google QUIC (GQUIC) protocol and adds "gquic"
+    to conn.log's "service" field.
+tags = plugin, analyzer, gquic, quic
+plugin_dir = build/Corelight_GQUIC.tgz
+script_dir = build/scripts/Corelight/GQUIC
+build_command = test -e %(bro_dist)s/bro-path-dev.in && ( ./configure --bro-dist=%(bro_dist)s && make ) || ( ./configure && make )
