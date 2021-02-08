@@ -1,5 +1,5 @@
-%include binpac.pac
-%include bro.pac
+%include zeek/binpac.pac
+%include zeek/zeek.pac
 
 %extern{
 #include "GQUIC.h"
@@ -11,7 +11,7 @@ analyzer GQUIC withcontext {
     flow:       GQUIC_Flow;
 };
 
-connection GQUIC_Conn(bro_analyzer: BroAnalyzer) {
+connection GQUIC_Conn(zeek_analyzer: ZeekAnalyzer) {
     upflow   = GQUIC_Flow(true);
     downflow = GQUIC_Flow(false);
 };

@@ -2,19 +2,19 @@
 #include "Plugin.h"
 #include "GQUIC.h"
 
-#include <plugin/Plugin.h>
-#include "analyzer/Component.h"
+#include <zeek/plugin/Plugin.h>
+#include <zeek/analyzer/Component.h>
 
 namespace plugin { namespace Corelight_GQUIC { Plugin plugin; } }
 
 using namespace plugin::Corelight_GQUIC;
 
-plugin::Configuration Plugin::Configure()
+zeek::plugin::Configuration Plugin::Configure()
 	{
-	auto c = new ::analyzer::Component("GQUIC",
+	auto c = new zeek::analyzer::Component("GQUIC",
 	    ::analyzer::gquic::GQUIC_Analyzer::Instantiate);
 	AddComponent(c);
-	plugin::Configuration config;
+  zeek::plugin::Configuration config;
 	config.name = "Corelight::GQUIC";
 	config.description = "Google QUIC (QGUIC) protocol analyzer";
 	config.version.major = 0;

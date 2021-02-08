@@ -1,16 +1,16 @@
 
 #pragma once
 
-#include <plugin/Plugin.h>
+#include <zeek/plugin/Plugin.h>
 
 namespace plugin {
 namespace Corelight_GQUIC {
 
-class Plugin : public ::plugin::Plugin
+class Plugin : public zeek::plugin::Plugin
 {
 protected:
 	// Overridden from plugin::Plugin.
-	plugin::Configuration Configure() override;
+  zeek::plugin::Configuration Configure() override;
 };
 
 extern Plugin plugin;

@@ -3,7 +3,6 @@
 	#include <unordered_set>
 	#include "consts.bif.h"
 	#include "types.bif.h"
-	#include "Scope.h"
 %}
 
 %header{
@@ -21,17 +20,17 @@ refine connection GQUIC_Conn += {
 
 		void confirm()
 			{
-			bro_analyzer()->ProtocolConfirmation();
+			zeek_analyzer()->ProtocolConfirmation();
 
-			if ( BifConst::GQUIC::skip_after_confirm )
-				bro_analyzer()->SetSkip(true);
+			if ( zeek::BifConst::GQUIC::skip_after_confirm )
+				zeek_analyzer()->SetSkip(true);
 			}
 
 		uint16 extract_gquic_version(const uint8* version_bytes)
 			{
 			if ( version_bytes[0] != 'Q' )
 				{
-				bro_analyzer()->ProtocolViolation("invalid GQUIC Version",
+				zeek_analyzer()->ProtocolViolation("invalid GQUIC Version",
 				    reinterpret_cast<const char*>(version_bytes), 4);
 				return 0;
 				}
@@ -40,7 +39,7 @@ refine connection GQUIC_Conn += {
 				{
 				if ( ! isdigit(version_bytes[i]) )
 					{
-					bro_analyzer()->ProtocolViolation(
+					zeek_analyzer()->ProtocolViolation(
 					    "invalid GQUIC Version",
 				        reinterpret_cast<const char*>(version_bytes), 4);
 					return 0;
@@ -72,7 +71,7 @@ refine connection GQUIC_Conn += {
 
 			if ( vlist.length() % 4 != 0 )
 				{
-				bro_analyzer()->ProtocolViolation(
+				zeek_analyzer()->ProtocolViolation(
 				    "invalid GQUIC Version Negotation list",
 				    reinterpret_cast<const char*>(vlist.data()),
 				    vlist.length());
@@ -98,22 +97,22 @@ refine connection GQUIC_Conn += {
 
 			if ( gquic_version_negotiation )
 				{
-				static auto vt = lookup_ID("index_vec", "GLOBAL")->Type()->AsVectorType();
-				auto vv = new VectorVal(vt);
+				static auto vt = zeek::id::find_type<zeek::VectorType>("index_vec");
+				auto vv = zeek::make_intrusive<zeek::VectorVal>(vt);
 
 				for ( auto i = 0u; i < parsed_version_list.size(); ++i )
-					vv->Assign(vv->Size(), val_mgr->GetCount(parsed_version_list[i]));
+					vv->Assign(vv->Size(), zeek::val_mgr->Count(parsed_version_list[i]));
 
-				BifEvent::generate_gquic_version_negotiation(
-				    bro_analyzer(), bro_analyzer()->Conn(), is_orig, vv);
+				zeek::BifEvent::enqueue_gquic_version_negotiation(
+				    zeek_analyzer(), zeek_analyzer()->Conn(), is_orig, std::move(vv));
 				}
 			}
 			break;
 		case RESET:
 			{
 			if ( gquic_reset )
-				BifEvent::generate_gquic_reset(bro_analyzer(),
-											   bro_analyzer()->Conn(),
+				zeek::BifEvent::enqueue_gquic_reset(zeek_analyzer(),
+											   zeek_analyzer()->Conn(),
 											   is_orig);
 			}
 			break;
@@ -130,9 +129,9 @@ refine connection GQUIC_Conn += {
 					auto p = potential_client_versions.emplace(pkt_version);
 
 					if ( gquic_client_version && p.second )
-						BifEvent::generate_gquic_client_version(
-						    bro_analyzer(),
-						    bro_analyzer()->Conn(),
+						zeek::BifEvent::enqueue_gquic_client_version(
+						    zeek_analyzer(),
+						    zeek_analyzer()->Conn(),
 						    pkt_version);
 					}
 
@@ -156,31 +155,31 @@ refine connection GQUIC_Conn += {
 
 			if ( gquic_packet )
 				{
-				auto rv = new RecordVal(BifType::Record::GQUIC::PublicHeader);
-				rv->Assign(0, val_mgr->GetCount(pkt_num));
-				rv->Assign(1, val_mgr->GetBool(${pkt.flags.is_multipath}));
-				rv->Assign(2, val_mgr->GetBool(${pkt.flags.reserved_bit}));
+				auto rv = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::GQUIC::PublicHeader);
+				rv->Assign(0, zeek::val_mgr->Count(pkt_num));
+				rv->Assign(1, zeek::val_mgr->Bool(${pkt.flags.is_multipath}));
+				rv->Assign(2, zeek::val_mgr->Bool(${pkt.flags.reserved_bit}));
 
 				if ( ${pkt.cid}->present_case_index() )
 					{
 					auto bytes = ${pkt.cid.bytes};
 					auto ptr = reinterpret_cast<const char*>(bytes->data());
-					rv->Assign(3, new StringVal(bytes->size(), ptr));
+					rv->Assign(3, zeek::make_intrusive<zeek::StringVal>(bytes->size(), ptr));
 					}
 
 				if ( ${pkt.reg_pkt}->version_case_index() )
-					rv->Assign(4, val_mgr->GetCount(pkt_version));
+					rv->Assign(4, zeek::val_mgr->Count(pkt_version));
 
 				if ( ${pkt.reg_pkt}->nonce_case_index() )
 					{
 					auto bytes = ${pkt.reg_pkt.nonce_val};
 					auto ptr = reinterpret_cast<const char*>(bytes->data());
-					rv->Assign(5, new StringVal(bytes->size(), ptr));
+					rv->Assign(5, zeek::make_intrusive<zeek::StringVal>(bytes->size(), ptr));
 					}
 
-				BifEvent::generate_gquic_packet(bro_analyzer(),
-				                                bro_analyzer()->Conn(),
-				                                is_orig, rv);
+				zeek::BifEvent::enqueue_gquic_packet(zeek_analyzer(),
+				                                zeek_analyzer()->Conn(),
+				                                is_orig, std::move(rv));
 				}
 			}
 			break;
@@ -239,7 +238,7 @@ refine connection GQUIC_Conn += {
 		auto gquic_is_big_endian = version == 0 || version >= 39;
 
 		if ( gquic_is_big_endian )
-			rval = ntohll(rval);
+			rval = zeek::ntohll(rval);
 		else
 			{
 #ifdef WORDS_BIGENDIAN
