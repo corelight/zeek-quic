@@ -6,3 +6,6 @@ plugin_dir = build/Corelight_GQUIC.tgz
 script_dir = build/scripts/Corelight/GQUIC
 build_command = test -e %(bro_dist)s/bro-path-dev.in && ( ./configure --bro-dist=%(bro_dist)s && make ) || ( ./configure && make )
 aliases = zeek-quic bro-quic
+
+depends =
+  zeek >=4.0.0
