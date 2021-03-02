@@ -3,7 +3,7 @@
 
 using namespace analyzer::gquic;
 
-GQUIC_Analyzer::GQUIC_Analyzer(Connection* conn)
+GQUIC_Analyzer::GQUIC_Analyzer(zeek::Connection* conn)
 : Analyzer("GQUIC", conn)
 	{
 	interp = new binpac::GQUIC::GQUIC_Conn(this);
@@ -29,7 +29,7 @@ void GQUIC_Analyzer::Done()
 	}
 
 void GQUIC_Analyzer::DeliverPacket(int len, const u_char* data, bool orig,
-                                   uint64_t seq, const IP_Hdr* ip,
+                                   uint64_t seq, const zeek::IP_Hdr* ip,
                                    int caplen)
 	{
 	Analyzer::DeliverPacket(len, data, orig, seq, ip, caplen);
@@ -40,6 +40,6 @@ void GQUIC_Analyzer::DeliverPacket(int len, const u_char* data, bool orig,
 		}
 	catch ( const binpac::Exception& e )
 		{
-		ProtocolViolation(fmt("Binpac exception: %s", e.c_msg()));
+		ProtocolViolation(zeek::util::fmt("Binpac exception: %s", e.c_msg()));
 		}
 	}
